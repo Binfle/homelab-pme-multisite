@@ -86,7 +86,7 @@
 - "Redémarrer pfSense après plantage"
 
 **Exemples non nécessaires**
-- "Créer une VM dans VirtualBox" → tutoriel public déjà disponible
+- "Créer une VM dans VMware Workstation Pro" → tutoriel public déjà disponible
 - "Installer Debian" → idem
 
 ---
@@ -94,13 +94,13 @@
 ### 2.3 Compte-rendu de réunion (CR)
 
 **Pourquoi**
-- Trace les décisions, points bloquants, plan jusqu'à la prochaine réunion.
-- Permet à un membre absent de rattraper.
-- Évite de redécider 2 fois la même chose.
+- Trace les décisions structurantes prises hors-stream.
+- Sert de rétrospective formelle en clôture de sprint.
 
-**Quand**
-- À chaque réunion **synchrone** (visio, vocal, présentiel).
-- **Pas** pour les chats Discord/SMS asynchrones (qui restent dans Discord).
+**Quand** (cf section 6)
+- **Clôture de sprint** : rétrospective écrite (ce qui a marché, ce qui a coincé, leçons).
+- **Décision structurante** prise lors d'une session dédiée hors travail courant.
+- **Pas pour** : le travail courant (les décisions de détail se prennent à voix haute en stream Discord et sont tracées dans les commits / ADR / runbooks selon la portée).
 
 **Qui**
 - Rédigé par l'un des deux à tour de rôle.
@@ -108,8 +108,8 @@
 
 **Format**
 - Modèle dans `docs/meetings/template.md`.
-- 3 sections : fait depuis la dernière fois, points bloquants, plan jusqu'à la prochaine.
-- Stocké dans `docs/meetings/AAAA-MM-JJ.md`.
+- Sections : fait depuis la dernière fois, points bloquants, décisions, plan suivant.
+- Stocké dans `docs/meetings/AAAA-MM-JJ-<sujet>.md`.
 
 ---
 
@@ -119,7 +119,7 @@
 - Vu par tout le monde (recruteurs inclus). Doit être clair, accrocheur, à jour.
 - Mis à jour à chaque fin de sprint pour refléter ce qui marche désormais.
 
-**README de dossier** (ex: `docs/README.md`, `ansible/roles/<role>/README.md`)
+**README de dossier** (ex: `docs/README.md`, `docs/adr/README.md`, `ansible/roles/<role>/README.md`)
 - Explique ce qu'il y a dans le dossier et comment l'utiliser.
 - Au moins un README par rôle Ansible.
 
@@ -165,89 +165,63 @@ Un livrable est livrable quand **les 5 conditions** sont réunies :
 ## 5. Workflow d'un sprint
 
 ### 5.1 Avant le sprint
-- Réunion de cadrage du sprint (~30 min).
-- Identifier les 3-5 tâches principales.
+- Session de cadrage en stream (~30 min) : identifier les 3-5 tâches principales et tracer leur découpage.
 - Créer les issues GitHub correspondantes, milestone "Sprint N".
-- Mettre à jour `docs/sprints/sprint-N-<theme>.md` (objectif, livrables, tâches par membre, DoD).
+- Mettre à jour `docs/sprints/sprint-N-<theme>.md` (objectif, livrables, DoD).
 
 ### 5.2 Pendant le sprint
-- Une à deux réunions de point hebdo (~20 min).
-- Chaque CR dans `docs/meetings/`.
+- Pas de point hebdo formel : la communication se fait en stream Discord permanent.
 - Commits réguliers, PR au fil de l'eau.
-- Reviews dans les 24-48h max après ouverture d'une PR.
+- Reviews dans la journée (l'autre membre est généralement disponible en quelques minutes via Discord).
+- Pas de CR par défaut. Si un sujet bloque ou nécessite une décision structurante, on l'acte en ADR ou dans un CR dédié.
 
 ### 5.3 Fin du sprint
 - Vérifier les 5 critères de "livrable" sur chaque tâche.
 - Mettre à jour le README principal avec les nouvelles fonctionnalités.
 - Rédiger les ADR et runbooks manquants.
-- Réunion de clôture : ce qui a marché, ce qui a coincé, leçons apprises.
+- Réunion de clôture : ce qui a marché, ce qui a coincé, leçons apprises (CR formel dans `docs/meetings/`).
 - Tag Git `sprint-N` sur le commit final.
 
 ---
 
-## 6. Rôle de Claude (l'IA) dans le process
+## 6. Cadence de travail et CR
 
-⚠️ **Important** : Claude est un **scribe et un relecteur**, pas un décideur ni un membre de l'équipe au sens fort.
+Le binôme bosse **en stream permanent** quand il travaille sur le projet (~10h/jour, tous les jours de la semaine). Toutes les discussions, décisions de détail, débuggages se font en direct vocal. Cela rend caduques les rituels classiques d'équipes distribuées (daily standups, points hebdo, CR détaillés).
 
-### 6.1 Ce que Claude peut faire (sur demande explicite)
+### Cérémonies retenues (le minimum utile)
 
-- Rédiger un brouillon d'**ADR** à partir d'un contexte fourni (sujet, options, décision, alternatives).
-- Rédiger un brouillon de **runbook** à partir d'une procédure réellement exécutée et décrite.
-- Rédiger un **CR** à partir de notes brutes ou d'un audio fourni.
-- Relire un texte et signaler incohérences, oublis, fautes.
-- Expliquer un concept (Ansible, pfSense, AD, etc.) à la demande, en restant honnête sur ses limites de connaissance et l'âge de ses informations.
-- Suggérer des améliorations méthodologiques.
+**CR formel** (template `docs/meetings/template.md`) — uniquement pour :
+- **Clôture de sprint** : rétrospective écrite (ce qui a marché, ce qui a coincé, leçons apprises, ajustements pour le sprint suivant).
+- **Décisions structurantes** prises lors d'une session dédiée : si la décision aboutit à un ADR, le CR est facultatif (l'ADR fait office de trace). Sinon, un CR court justifie le choix.
 
-### 6.2 Ce que Claude ne peut pas faire
+**Pas de CR pour** :
+- Le travail courant (les décisions de détail se prennent à voix haute en stream)
+- Les daily ou les points intermédiaires
+- Les sessions de pair-programming standard
 
-- ❌ **Lire automatiquement** vos discussions Discord, SMS, mails ou messageries entre les conversations. Aucune intégration n'existe.
-- ❌ **Écouter en arrière-plan** vos discussions vocales en temps réel.
-- ❌ **Maintenir une mémoire** entre conversations sans que la mémoire utilisateur ait été activée dans les paramètres Claude.
-- ❌ **Vous notifier** ou vous relancer.
-- ❌ **Décider à votre place** sur les choix structurants : Claude suggère, vous tranchez.
+### Trace des décisions
 
-### 6.3 Comment utiliser Claude efficacement
+Vu le format stream, **le risque c'est que les décisions importantes se prennent oralement et soient oubliées**. Discipline à tenir :
 
-- **Donner du contexte** : pointer vers les ADR existants, le README, le sprint en cours.
-- **Être explicite** sur ce qu'on demande : "rédige" vs "relis" vs "explique" vs "compare".
-- **Vérifier les sorties** : Claude peut se tromper, surtout sur des informations récentes ou des détails techniques pointus. Croisez avec la doc officielle pour les points critiques.
-- **Garder Claude au courant des décisions actées** : à chaque nouvelle conversation, lui donner le sprint en cours et les ADR mergés.
+- Toute décision qui influence l'archi ou la stack → **ADR** (cf section 2.1)
+- Toute convention récurrente → notée dans `docs/conventions.md` ou un README de dossier
+- Toute info technique qui se redécouvre → ajoutée au runbook concerné
 
----
+Si après 5 minutes de discussion on s'aperçoit qu'on retombera dessus plus tard, **on l'écrit**. Pas en CR formel — en commit message, en commentaire de PR, en issue, ou en ADR selon la portée.
 
-## 7. Workflow CR de réunion (à expérimenter)
+### Workflow Git
 
-Le binôme n'a pas encore choisi de workflow définitif. Trois options à tester :
+Le binôme adapte son workflow Git selon le contexte :
 
-### Option A — Notes brutes après réunion → mise en forme
-1. Pendant la réunion : prendre des notes très brèves (5-10 lignes) à deux dans un doc partagé.
-2. Après la réunion : envoyer les notes à Claude qui produit un CR structuré.
-3. Relire et committer.
+- **Sujets parallélisables** (deux composants indépendants) → branches séparées + PR croisées avec review immédiate (l'autre est sur Discord, ça prend 2 minutes)
+- **Sujets complexes nécessitant pair-programming** → branche commune, commits qui mentionnent les deux contributeurs via `Co-authored-by:` dans le message
+- **Travail solo** (l'un avance pendant une absence de l'autre) → PR classique avec review différée
 
-✅ Léger, rapide, peu intrusif
-❌ Demande discipline pendant la réunion
-
-### Option B — Audio enregistré → transcription
-1. Enregistrer la réunion (smartphone, OBS, etc.).
-2. Envoyer l'audio à Claude *(à tester : formats supportés à confirmer ; en cas d'échec, transcrire d'abord avec Whisper, Otter, ou équivalent, puis envoyer le texte)*.
-3. Claude produit un CR structuré.
-
-✅ Aucune prise de note nécessaire pendant la réunion
-❌ Confidentialité à considérer si sujets sensibles
-❌ Audios longs (>30 min) peuvent dépasser les limites
-
-### Option C — Réunion live avec Claude
-1. Pendant la réunion, l'un des deux discute avec Claude en parallèle.
-2. À la fin, Claude résume.
-
-✅ CR prêt en fin de réunion
-❌ Très intrusif, distrait des échanges humains
-
-**Recommandation** : tester l'**Option A pendant 2-3 réunions**, voir si c'est viable. Passer à l'Option B uniquement si l'Option A est trop lourde.
+Le workflow PR (cf `CONTRIBUTING.md`) reste la **règle par défaut** sur `main`, indépendamment du contexte de travail. La branch protection l'impose techniquement.
 
 ---
 
-## 8. Structure du repo (rappel)
+## 7. Structure du repo (rappel)
 
 ```
 .
@@ -258,9 +232,9 @@ Le binôme n'a pas encore choisi de workflow définitif. Trois options à tester
 ├── docs/
 │   ├── architecture.md
 │   ├── addressing-plan.md
-│   ├── threat-model.md
 │   ├── process.md                ← ce document
 │   ├── adr/
+│   │   ├── README.md             ← index des ADR
 │   │   ├── template.md
 │   │   ├── 001-architecture-deux-sites-vpn.md
 │   │   ├── 002-stack-iac-ansible-seul-phase1.md
@@ -271,10 +245,9 @@ Le binôme n'a pas encore choisi de workflow définitif. Trois options à tester
 │   │   └── ...
 │   ├── meetings/
 │   │   ├── template.md
-│   │   └── AAAA-MM-JJ.md
+│   │   └── AAAA-MM-JJ-<sujet>.md
 │   └── sprints/
 │       ├── sprint-0-cadrage.md
-│       ├── sprint-1-fondations.md
 │       └── ...
 ├── diagrams/
 │   └── network-overview.txt
@@ -289,7 +262,7 @@ Le binôme n'a pas encore choisi de workflow définitif. Trois options à tester
 
 ---
 
-## 9. Pièges à éviter
+## 8. Pièges à éviter
 
 - **Documenter pour documenter** : si un ADR n'apporte rien à un futur lecteur, ne pas l'écrire.
 - **Runbook spéculatif** : écrire la procédure avant de l'avoir exécutée → erreurs garanties.

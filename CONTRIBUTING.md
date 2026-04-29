@@ -37,5 +37,4 @@ ansible-vault encrypt_string 'pass' --name 'admin_password'
 `.vault_pass` est gitignoré, partagé via Bitwarden/KeePass.
 
 ## Réunions
-CR hebdo dans `docs/meetings/AAAA-MM-JJ.md` : fait / bloqué / plan semaine suivante.
 Modèle dans [docs/meetings/template.md](docs/meetings/template.md).

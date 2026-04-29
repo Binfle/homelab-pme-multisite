@@ -55,8 +55,11 @@ Détail dans [docs/sprints/](docs/sprints/).
 
 | Membre | Site | Domaines |
 |---|---|---|
-| `<nom 1>` | Siège (A) | pfSense A, AD, file server, Traefik, monitoring |
-| `<nom 2>` | Agence (B) | pfSense B, BIND9, clients, sauvegarde, NetBox |
+| Augustin | Siège (A) | pfSense A, AD, file server, Traefik, monitoring |
+| Martial | Agence (B) | pfSense B, BIND9, clients, sauvegarde, NetBox |
+
+Le binôme bosse en pair-programming sur l'ensemble du projet : les deux 
+membres maîtrisent toute la stack à la fin du projet.
 
 Communs : tunnel WireGuard, rôles Ansible partagés, CI, doc, ADR.
 **Règle** : aucun merge sur `main` sans review de l'autre.
