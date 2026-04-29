@@ -87,12 +87,12 @@ Restic centralisé : agents sur les VM critiques → repository chiffré sur un 
 
 ### Site A (Siège)
 - **Hôte physique** : PC perso membre 1, Windows 10/11, 32 Go RAM
-- **Hyperviseur** : VirtualBox (cf. ADR-004)
+- **Hyperviseur** : VirtualBox, VMware (cf. ADR-004)
 - **VM** : pfSense A, AD DC1, Docker host (Traefik + monitoring), site web DMZ, postes clients de test
 
 ### Site B (Agence)
 - **Hôte physique** : PC perso membre 2, Windows 10/11, 32 Go RAM
-- **Hyperviseur** : VirtualBox (cf. ADR-004)
+- **Hyperviseur** : VirtualBox, VMware (cf. ADR-004)
 - **VM** : pfSense B, BIND9, NetBox, postes clients de test
 
 ### Phase 2 (bonus, non MVP)
@@ -136,6 +136,6 @@ Le détail des règles firewall et du modèle de menace est traité dans `docs/t
 - Pas de PRA / PCA formalisé.
 - Pas de conformité réglementaire (RGPD, NIS2, etc.) bien que les bonnes pratiques soient observées.
 - Domaine externe `acme.example` non acquis : la démo publique reste une option en bonus.
-- Performances limitées par l'hyperviseur (VirtualBox) et la connectivité résidentielle des hébergeurs.
+- Performances limitées par l'hyperviseur (VirtualBox, VMware) et la connectivité résidentielle des hébergeurs.
 
 Ces limites sont documentées dans les ADR concernés et n'invalident pas le caractère pédagogique et démonstratif du projet.

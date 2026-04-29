@@ -3,7 +3,7 @@
 > Phase préparatoire avant l'écriture de toute infrastructure. Ce document acte les choix structurants, identifie les risques et liste les prérequis à valider avant de basculer en Sprint 1.
 
 **Statut** : à valider à deux
-**Date** : <à remplir>
+**Date** : 28/04/2026
 
 ---
 
@@ -37,7 +37,7 @@ Deux sites distincts hébergés respectivement chez chaque membre, reliés par u
 
 **Justification** :
 
-- Permet de garder Windows comme OS principal (gaming, usage perso intact)
+- Permet de garder Windows comme OS principal (usage perso intact)
 - Aucune perturbation du quotidien
 - Réseaux virtuels (Internal Network) suffisants pour reproduire la segmentation VLAN
 - pfSense en mode "Bridged Adapter" sur le LAN domestique pour le WAN
@@ -140,21 +140,13 @@ Reportés en phase 2, bonus ou abandonnés selon l'envie après MVP :
 
 ---
 
-## 4. Cartographie des compétences (binôme)
+## 4. Niveau initial du binôme
 
-| Techno | Membre 1 | Membre 2 | Niveau combiné | Risque |
-|---|---|---|---|---|
-| Ansible | 2/10 | <à remplir> | faible | 🟡 moyen |
-| pfSense | 0 | <à remplir> | nul | 🔴 élevé |
-| Active Directory | 5/10 | <à remplir> | correct | 🟢 faible |
-| WireGuard | bon (serveur) | <à remplir> | bon | 🟢 faible |
-| Docker | bon (prod) | <à remplir> | très bon | 🟢 nul |
-| BIND9 | <à remplir> | <à remplir> | <à remplir> | 🟡 moyen |
-| Prometheus/Grafana | <à remplir> | <à remplir> | <à remplir> | 🟡 moyen |
-| Restic | <à remplir> | <à remplir> | <à remplir> | 🟡 moyen |
-| NetBox | <à remplir> | <à remplir> | <à remplir> | 🟡 moyen |
-
-**Lecture** : forces solides sur Docker et WireGuard (à exploiter en grappe 3). Trou critique sur pfSense (à attaquer dès la grappe 1). Ansible à apprendre **en l'appliquant** sur du concret simple au début.
+Le binôme démarre avec des compétences inégales selon les technos de la stack
+(certaines maîtrisées, d'autres totalement nouvelles). Le découpage en grappes
+(section 3) est conçu pour absorber les apprentissages dans un ordre logique :
+les grappes les plus exigeantes en apprentissage sont placées en début de phase,
+les plus complémentaires en fin.
 
 ---
 
@@ -177,28 +169,28 @@ Reportés en phase 2, bonus ou abandonnés selon l'envie après MVP :
 Cases à cocher par chaque membre **avant** de démarrer le Sprint 1.
 
 ### Membre 1
-- [ ] VT-x / AMD-V activé dans le BIOS du PC perso
-- [ ] VirtualBox (ou VMware Workstation Pro) installé et fonctionnel
-- [ ] Au moins 100 Go libres sur le SSD pour les VM
-- [ ] ISO téléchargées : Debian 12/13, Windows Server 2022 Eval, pfSense CE
-- [ ] Test "VM jetable Debian" : la VM se lance, a internet, je peux la supprimer
-- [ ] Vérification CGNAT (déjà faite, ✅)
-- [ ] Accès admin à la box internet (pour port forwarding ultérieur)
+- [x] VT-x / AMD-V activé dans le BIOS du PC perso
+- [x] VirtualBox (ou VMware Workstation Pro) installé et fonctionnel
+- [x] Au moins 100 Go libres sur le SSD pour les VM
+- [x] ISO téléchargées : Debian 12/13, Windows Server 2022 Eval, pfSense CE
+- [x] Test "VM jetable Debian" : la VM se lance, a internet, je peux la supprimer
+- [x] Vérification CGNAT (déjà faite, ✅)
+- [x] Accès admin à la box internet (pour port forwarding ultérieur)
 
 ### Membre 2
-- [ ] Idem ci-dessus
+- [x] Idem ci-dessus
 
 ### Communs
-- [ ] Repo GitHub créé avec la structure complète
-- [ ] Branch protection sur `main`
-- [ ] Templates PR + issues en place
-- [ ] README, CONTRIBUTING, LICENSE, .gitignore
-- [ ] ADR-001, 002, 003 mergés
-- [ ] **ADR-004 rédigé** (choix hyperviseur — ce que ce document acte)
-- [ ] Schéma réseau draw.io (premier jet, export PNG)
-- [ ] Plan d'adressage relu et validé à deux
-- [ ] Premier CR de réunion dans `docs/meetings/`
-- [ ] Cartographie des compétences complétée à deux (section 4 de ce doc)
+- [x] Repo GitHub créé avec la structure complète
+- [x] Branch protection sur `main`
+- [x] Templates PR + issues en place
+- [x] README, CONTRIBUTING, LICENSE, .gitignore
+- [x] ADR-001, 002, 003 mergés
+- [x] **ADR-004 rédigé** (choix hyperviseur — ce que ce document acte)
+- [x] Schéma réseau draw.io (premier jet, export PNG)
+- [x] Plan d'adressage relu et validé à deux
+- [x] Premier CR de réunion dans `docs/meetings/`
+- [x] Section 4 (niveau initial) relue à deux
 
 ---
 
@@ -207,7 +199,7 @@ Cases à cocher par chaque membre **avant** de démarrer le Sprint 1.
 Le Sprint 0 est clos quand :
 
 1. ✅ Toutes les décisions structurantes sont actées (sections 2 et 3)
-2. ✅ La cartographie des compétences est complète à deux (section 4)
+2. ✅ Section 4 (niveau initial) relue à deux
 3. ✅ Tous les prérequis techniques sont validés (section 6)
 4. ✅ Tous les ADR fondateurs sont mergés (001, 002, 003, 004)
 5. ✅ Le repo est prêt à recevoir le premier commit d'infrastructure
