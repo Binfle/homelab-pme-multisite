@@ -1,0 +1,19 @@
+                          INTERNET
+                              │
+              ┌───────────────┴───────────────┐
+              │                               │
+        ┌─────▼─────┐                   ┌─────▼─────┐
+        │ pfSense A │═══ WireGuard ═════│ pfSense B │
+        │  Siège    │   site-à-site     │  Agence   │
+        └─────┬─────┘  10.99.99.0/30    └─────┬─────┘
+              │                               │
+   ┌──────────┼──────────┐              ┌─────┼─────┐
+   │          │          │              │     │     │
+ LAN-USR   LAN-SRV     DMZ           LAN-USR LAN-SRV MGMT
+ .10.0/24  .20.0/24   .30.0/24       .10.0/24 .20.0/24 .40.0/24
+   │          │          │              │     │
+ Postes    AD DC1     site web        Postes BIND9
+ Win/Lin   Traefik   public           Win/Lin NetBox
+ joints    Docker                     joints
+ AD        Prom/Graf
+           Restic

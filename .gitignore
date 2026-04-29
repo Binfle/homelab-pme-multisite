@@ -1,0 +1,38 @@
+# Secrets
+.vault_pass
+*.vault
+**/secrets.yml
+*.pem
+*.key
+!*.pub
+
+# Ansible
+*.retry
+.ansible/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Editeurs / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Terraform
+.terraform/
+*.tfstate*
+*.tfvars
+!example.tfvars
+
+# VirtualBox / VMware
+*.vdi
+*.vmdk
+*.vmx
+*.vbox*
