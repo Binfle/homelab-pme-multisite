@@ -12,7 +12,8 @@
 | **Sprint** | Période de travail (1 à 2 semaines) consacrée à une grappe thématique cohérente. Produit un livrable. |
 | **Grappe** | Thème cohérent regroupant plusieurs services liés (ex: réseau bas-niveau, identité, services applicatifs). Une grappe = un sprint. *(Terme interne, pas standard de l'industrie.)* |
 | **ADR** | Architecture Decision Record. Trace écrite d'une décision structurante. |
-| **Runbook** | Procédure opérationnelle reproductible (ex: "redémarrer le tunnel WireGuard"). |
+| **Runbook** | Procédure opérationnelle de remédiation ou maintenance courante (ex: "redémarrer le tunnel WireGuard"). |
+| **Procédure d'installation** | Documentation de mise en place initiale d'un composant technique. Se distingue du runbook par son déclencheur (volonté de mise en place vs problème). Cf. ADR-006. |
 | **CR** | Compte-rendu de réunion. Daté, court, factuel. |
 | **Livrable** | Artefact terminé selon les 5 critères de la section 4. |
 | **MVP** | Minimum Viable Product : le périmètre minimum qui rend le projet "présentable". |
@@ -62,7 +63,7 @@
 ### 2.2 Runbook
 
 **Pourquoi**
-- Procédure reproductible pour une opération courante ou de remédiation.
+- Procédure reproductible pour une opération de remédiation ou de maintenance courante.
 - Garantit que **l'autre membre puisse intervenir** si tu n'es pas là.
 - En production réelle, un service sans runbook = un service non exploitable.
 
@@ -82,16 +83,60 @@
 **Exemples obligatoires**
 - "Restauration depuis Restic" → **dès** que Restic est en place. Une sauvegarde non testée = pas de sauvegarde.
 - "Reconfigurer le tunnel WireGuard"
-- "Joindre un poste Linux à AD via SSSD"
 - "Redémarrer pfSense après plantage"
 
 **Exemples non nécessaires**
-- "Créer une VM dans VMware Workstation Pro" → tutoriel public déjà disponible
-- "Installer Debian" → idem
+- "Installer Debian" → tutoriel public déjà disponible
+
+**À ne pas confondre avec une procédure d'installation** (cf. 2.3).
 
 ---
 
-### 2.3 Compte-rendu de réunion (CR)
+### 2.3 Procédure d'installation
+
+**Pourquoi**
+- Documenter la **mise en place initiale** d'un composant technique
+  (pfSense, AD, BIND9, Docker, NetBox, etc.).
+- Permettre à l'autre membre de reproduire l'installation à l'identique
+  sur son site.
+- Constituer la mémoire vive du projet : ce qui a été fait, dans quel
+  ordre, avec quels paramètres.
+
+**Quand**
+- **Pendant** ou **immédiatement après** la première installation réussie.
+- **Pas avant** : un brouillon spéculatif est faux.
+- Idéalement issue d'un journal de bord brut transformé en doc reproductible.
+
+**Qui**
+- Rédigée par le membre ayant exécuté l'installation initiale.
+- **Testée et validée** par l'autre membre, qui doit pouvoir reproduire
+  l'installation chez lui sans aide. Tant que ce test croisé n'a pas
+  eu lieu, la procédure est marquée `à valider`.
+
+**Format**
+- Modèle dans `docs/installations/template.md`.
+- Sections : objet, pré-requis, variables (si paramétrée par site),
+  étapes phasées, validation finale, erreurs connues, liens.
+
+**Distinction avec un runbook**
+- Une **procédure d'installation** est déclenchée par une *volonté de mise
+  en place* (`docs/installations/`).
+- Un **runbook** est déclenché par un *problème* ou une *maintenance
+  courante* (`docs/runbooks/`).
+- Décision tracée dans `docs/adr/006-procedures-vs-runbooks.md`.
+
+**Exemples qui méritent une procédure d'installation**
+- Installation initiale de pfSense sur VMware
+- Déploiement initial d'AD DC1
+- Mise en service de Traefik en DMZ
+
+**Exemples qui ne méritent PAS une procédure d'installation**
+- "Créer une VM Debian dans VMware" → tutoriel public déjà disponible
+- "Installer un paquet sur Debian" → rôle Ansible, pas une doc à part
+
+---
+
+### 2.4 Compte-rendu de réunion (CR)
 
 **Pourquoi**
 - Trace les décisions structurantes prises hors-stream.
@@ -113,7 +158,7 @@
 
 ---
 
-### 2.4 README et docs annexes
+### 2.5 README et docs annexes
 
 **README principal**
 - Vu par tout le monde (recruteurs inclus). Doit être clair, accrocheur, à jour.
@@ -151,11 +196,11 @@ Un livrable est livrable quand **les 5 conditions** sont réunies :
 3. **C'est documenté** :
    - Au minimum un README ou une section dans le README principal.
    - ADR si décision structurante.
-   - Runbook si procédure d'exploitation existe.
+   - Runbook ou procédure d'installation si pertinent.
 4. **C'est testable par l'autre** :
    - L'autre membre peut le rejouer chez lui (ou comprendre pourquoi pas, ex: tunnel WG cross-sites).
    - Pour Ansible : le rôle s'applique sur une VM neuve sans intervention manuelle.
-   - Pour pfSense (UI) : captures d'écran annotées + runbook compensent l'impossibilité d'automatiser.
+   - Pour pfSense (UI) : captures d'écran annotées + procédure compensent l'impossibilité d'automatiser.
 5. **C'est mis en avant** : entrée dans le README principal ou dans la section "fonctionnalités".
 
 **Pas de livrable = sprint pas terminé.** On ne passe pas à la grappe suivante avant que la précédente coche les 5 cases.
@@ -178,7 +223,7 @@ Un livrable est livrable quand **les 5 conditions** sont réunies :
 ### 5.3 Fin du sprint
 - Vérifier les 5 critères de "livrable" sur chaque tâche.
 - Mettre à jour le README principal avec les nouvelles fonctionnalités.
-- Rédiger les ADR et runbooks manquants.
+- Rédiger les ADR, runbooks et procédures d'installation manquants.
 - Réunion de clôture : ce qui a marché, ce qui a coincé, leçons apprises (CR formel dans `docs/meetings/`).
 - Tag Git `sprint-N` sur le commit final.
 
@@ -205,7 +250,7 @@ Vu le format stream, **le risque c'est que les décisions importantes se prennen
 
 - Toute décision qui influence l'archi ou la stack → **ADR** (cf section 2.1)
 - Toute convention récurrente → notée dans `docs/conventions.md` ou un README de dossier
-- Toute info technique qui se redécouvre → ajoutée au runbook concerné
+- Toute info technique qui se redécouvre → ajoutée au runbook ou à la procédure concernée
 
 Si après 5 minutes de discussion on s'aperçoit qu'on retombera dessus plus tard, **on l'écrit**. Pas en CR formel — en commit message, en commentaire de PR, en issue, ou en ADR selon la portée.
 
@@ -222,9 +267,6 @@ Le workflow PR (cf `CONTRIBUTING.md`) reste la **règle par défaut** sur `main`
 ---
 
 ## 7. Structure du repo (rappel)
-
-```
-.
 ├── README.md
 ├── CONTRIBUTING.md
 ├── LICENSE
@@ -239,8 +281,14 @@ Le workflow PR (cf `CONTRIBUTING.md`) reste la **règle par défaut** sur `main`
 │   │   ├── 001-architecture-deux-sites-vpn.md
 │   │   ├── 002-stack-iac-ansible-seul-phase1.md
 │   │   ├── 003-plan-adressage.md
-│   │   └── 004-choix-hyperviseur-phase-1.md
-│   ├── runbooks/
+│   │   ├── 004-choix-hyperviseur-phase-1.md
+│   │   └── 006-procedures-vs-runbooks.md
+│   ├── installations/            ← procédures d'install (cf ADR-006)
+│   │   ├── README.md
+│   │   ├── template.md
+│   │   └── ...
+│   ├── runbooks/                 ← remédiation et maintenance
+│   │   ├── README.md
 │   │   ├── template.md
 │   │   └── ...
 │   ├── meetings/
@@ -256,16 +304,15 @@ Le workflow PR (cf `CONTRIBUTING.md`) reste la **règle par défaut** sur `main`
 │   ├── roles/
 │   └── playbooks/
 └── .github/
-    ├── pull_request_template.md
-    └── ISSUE_TEMPLATE/
-```
+├── pull_request_template.md
+└── ISSUE_TEMPLATE/
 
 ---
 
 ## 8. Pièges à éviter
 
 - **Documenter pour documenter** : si un ADR n'apporte rien à un futur lecteur, ne pas l'écrire.
-- **Runbook spéculatif** : écrire la procédure avant de l'avoir exécutée → erreurs garanties.
+- **Runbook ou procédure spéculatifs** : écrire avant d'avoir exécuté → erreurs garanties.
 - **CR trop longs** : un CR > 1 page n'est pas relu. Synthétiser.
 - **PR fourre-tout** : mélanger doc + config + nouveau rôle → review impossible.
 - **Sauvegarde non testée** : Restic configuré ≠ sauvegardes valides. Test de restauration obligatoire avant de cocher la case.
