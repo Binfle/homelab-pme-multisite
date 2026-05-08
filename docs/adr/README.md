@@ -21,10 +21,11 @@
 | [002](002-stack-iac-ansible-seul-phase1.md) | Stack IaC : Ansible seul en phase 1 | Sprint 0 | 28/04/2026 | accepté |
 | [003](003-plan-adressage.md) | Plan d'adressage IP | Sprint 0 | 28/04/2026 | accepté |
 | [004](004-choix-hyperviseur-phase-1.md) | Hyperviseur de phase 1 : VMware Workstation Pro sur PC perso | Sprint 0 | 28/04/2026 | **remplacé par ADR-007** |
-| [005](005-segmentation-vlan-et-flux.md) | Segmentation par VLANs taggés et matrice de flux inter-VLAN | Sprint 1 | 07/05/2026 | proposé |
+| [005](005-segmentation-vlan-et-flux.md) | Segmentation par VLANs taggés et matrice de flux inter-VLAN | Sprint 1 | 07/05/2026 | accepté |
 | [006](006-procedures-vs-runbooks.md) | Séparation procédures d'installation vs runbooks de remédiation | Sprint 1 | 30/04/2026 | proposé |
-| [007](007-passage-hyperv.md) | Passage à Hyper-V comme hyperviseur de phase 1 | Sprint 1 | 07/05/2026 | proposé |
-| [008](008-backend-dhcp-kea.md) | Choix du backend DHCP : Kea (au lieu d'ISC) | Sprint 1 | 07/05/2026 | proposé |
+| [007](007-passage-hyperv.md) | Passage à Hyper-V comme hyperviseur de phase 1 | Sprint 1 | 07/05/2026 | accepté |
+| [008](008-backend-dhcp-kea.md) | Choix du backend DHCP : Kea (au lieu d'ISC) | Sprint 1 | 07/05/2026 | accepté |
+| [009](009-wireguard-site-to-site.md) | Choix de WireGuard pour le tunnel site-à-site et configuration sur pfSense | Sprint 1 | 07/05/2026 | proposé |
 
 ---
 
@@ -34,6 +35,7 @@
 
 - [ADR-001](001-architecture-deux-sites-vpn.md) — Architecture deux sites avec VPN site-à-site
 - [ADR-005](005-segmentation-vlan-et-flux.md) — Segmentation par VLANs taggés et matrice de flux inter-VLAN
+- [ADR-009](009-wireguard-site-to-site.md) — Choix de WireGuard pour le tunnel site-à-site et configuration sur pfSense
 
 ### Adressage & DNS
 
@@ -74,7 +76,7 @@ ADR-001 ── structure tout le projet (architecture)
         ├── influence ADR-003 (plan d'adressage adapté à 2 sites)
         ├── influence ADR-004 (hyperviseur capable de virtualiser pfSense)
         ├── influence ADR-005 (segmentation VLAN inter-sites)
-        └── influence (futur) ADR sur WireGuard site-à-site
+        └── influence ADR-009 (tunnel WireGuard site-à-site)
 
 ADR-002 ── structure tout le travail IaC du projet
         │
@@ -82,7 +84,8 @@ ADR-002 ── structure tout le travail IaC du projet
 
 ADR-003 ── détaille les sous-réseaux
         │
-        └── dépend de ADR-001
+        ├── dépend de ADR-001
+        └── influence ADR-009 (subnet de transit 10.99.99.0/30)
 
 ADR-004 ── (déprécié, remplacé par ADR-007)
 
@@ -103,6 +106,12 @@ ADR-007 ── Hyper-V (remplace ADR-004)
 ADR-008 ── backend DHCP Kea
         │
         └── influence configuration DHCP par interface (Sprint 1+)
+
+ADR-009 ── tunnel WireGuard site-à-site
+        │
+        ├── dépend de ADR-001 (architecture 2 sites avec VPN)
+        ├── dépend de ADR-003 (subnet de transit 10.99.99.0/30)
+        └── influence configuration routage / firewall inter-sites
 ```
 
 ⚠️ Ce graphe est **maintenu manuellement** à chaque évolution. À actualiser quand un ADR remplace, amende, ou est référencé par un autre.
