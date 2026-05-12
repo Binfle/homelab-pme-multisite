@@ -26,6 +26,7 @@
 | [007](007-passage-hyperv.md) | Passage à Hyper-V comme hyperviseur de phase 1 | Sprint 1 | 07/05/2026 | accepté |
 | [008](008-backend-dhcp-kea.md) | Choix du backend DHCP : Kea (au lieu d'ISC) | Sprint 1 | 07/05/2026 | accepté |
 | [009](009-wireguard-site-to-site.md) | Choix de WireGuard pour le tunnel site-à-site et configuration sur pfSense | Sprint 1 | 07/05/2026 | proposé |
+| [010](010-suppression-cr-cloture-sprint.md) | Suppression des CR de clôture de sprint au profit des traces atomiques | Sprint 1 | 12/05/2026 | proposé |
 
 ---
 
@@ -63,57 +64,49 @@
 ### Process & gouvernance
 
 - [ADR-006](006-procedures-vs-runbooks.md) — Séparation procédures d'installation vs runbooks de remédiation
+- [ADR-010](010-suppression-cr-cloture-sprint.md) — Suppression des CR de clôture de sprint au profit des traces atomiques
 
 ---
 
 ## Graphe des liens entre ADR
 
 > Représentation simplifiée des relations « remplace », « amende », « dépend de ».
-
-```
 ADR-001 ── structure tout le projet (architecture)
-        │
-        ├── influence ADR-003 (plan d'adressage adapté à 2 sites)
-        ├── influence ADR-004 (hyperviseur capable de virtualiser pfSense)
-        ├── influence ADR-005 (segmentation VLAN inter-sites)
-        └── influence ADR-009 (tunnel WireGuard site-à-site)
-
+│
+├── influence ADR-003 (plan d'adressage adapté à 2 sites)
+├── influence ADR-004 (hyperviseur capable de virtualiser pfSense)
+├── influence ADR-005 (segmentation VLAN inter-sites)
+└── influence ADR-009 (tunnel WireGuard site-à-site)
 ADR-002 ── structure tout le travail IaC du projet
-        │
-        └── influence (futur) ADR sur Terraform / Packer si ajout en phase 2
-
+│
+└── influence (futur) ADR sur Terraform / Packer si ajout en phase 2
 ADR-003 ── détaille les sous-réseaux
-        │
-        ├── dépend de ADR-001
-        └── influence ADR-009 (subnet de transit 10.99.99.0/30)
-
+│
+├── dépend de ADR-001
+└── influence ADR-009 (subnet de transit 10.99.99.0/30)
 ADR-004 ── (déprécié, remplacé par ADR-007)
-
 ADR-005 ── matrice de flux inter-VLAN
-        │
-        ├── dépend de ADR-001 (architecture 2 sites)
-        ├── dépend de ADR-003 (plan d'adressage)
-        └── dépend de ADR-007 (Hyper-V comme hyperviseur)
-
+│
+├── dépend de ADR-001 (architecture 2 sites)
+├── dépend de ADR-003 (plan d'adressage)
+└── dépend de ADR-007 (Hyper-V comme hyperviseur)
 ADR-006 ── structure la documentation opérationnelle
-        │
-        └── influence process.md (sections 2.2 et 2.3)
-
+│
+└── influence process.md (sections 2.2 et 2.3)
 ADR-007 ── Hyper-V (remplace ADR-004)
-        │
-        └── influence ADR-005 (config trunk VLAN spécifique Hyper-V)
-
+│
+└── influence ADR-005 (config trunk VLAN spécifique Hyper-V)
 ADR-008 ── backend DHCP Kea
-        │
-        └── influence configuration DHCP par interface (Sprint 1+)
-
+│
+└── influence configuration DHCP par interface (Sprint 1+)
 ADR-009 ── tunnel WireGuard site-à-site
-        │
-        ├── dépend de ADR-001 (architecture 2 sites avec VPN)
-        ├── dépend de ADR-003 (subnet de transit 10.99.99.0/30)
-        └── influence configuration routage / firewall inter-sites
-```
-
+│
+├── dépend de ADR-001 (architecture 2 sites avec VPN)
+├── dépend de ADR-003 (subnet de transit 10.99.99.0/30)
+└── influence configuration routage / firewall inter-sites
+ADR-010 ── pratique méthodologique : suppression des CR de clôture
+│
+└── influence process.md (sections 1, 2.4, 5.3 et 6)
 ⚠️ Ce graphe est **maintenu manuellement** à chaque évolution. À actualiser quand un ADR remplace, amende, ou est référencé par un autre.
 
 ---
