@@ -1,0 +1,7 @@
+---
+# Hôtes du site siege01
+siege01:
+  hosts:
+    client-debian-siege01-01:
+      ansible_host: 10.10.10.100
+      ansible_user: sysadmin
