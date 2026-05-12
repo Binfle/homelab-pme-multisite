@@ -1,0 +1,7 @@
+---
+# Hôtes du site agence01
+agence01:
+  hosts:
+    client-debian-agence01-01:
+      ansible_host: 10.20.10.100
+      ansible_user: sysadmin

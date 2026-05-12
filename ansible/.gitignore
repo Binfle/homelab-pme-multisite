@@ -1,0 +1,11 @@
+# Fichiers Ansible
+*.retry
+.vault_pass
+ansible.log
+
+# Python
+*.pyc
+__pycache__/
+
+# Cache Ansible
+.ansible/
