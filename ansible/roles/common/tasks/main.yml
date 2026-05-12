@@ -1,0 +1,44 @@
+---
+# tasks file for common
+# Sprint 1 — bootstrap minimal
+
+- name: Common — sanity check (début du rôle)
+  ansible.builtin.debug:
+    msg: "Application du rôle common sur {{ inventory_hostname }} ({{ ansible_host | default('localhost') }})"
+
+- name: Common — mise à jour du cache apt
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Common — installation des paquets de base
+  ansible.builtin.apt:
+    name: "{{ common_base_packages }}"
+    state: present
+- name: Common — définition du hostname
+  ansible.builtin.hostname:
+    name: "{{ inventory_hostname }}"
+
+- name: Common — création du user admin
+  ansible.builtin.user:
+    name: "{{ common_admin_user }}"
+    groups: "{{ common_admin_groups }}"
+    shell: "{{ common_admin_shell }}"
+    append: true
+    state: present
+    create_home: true
+
+- name: Common — sudo NOPASSWD pour le user admin
+  ansible.builtin.copy:
+    dest: "/etc/sudoers.d/{{ common_admin_user }}"
+    content: "{{ common_admin_user }} ALL=(ALL) NOPASSWD: ALL\n"
+    owner: root
+    group: root
+    mode: "0440"
+    validate: "/usr/sbin/visudo -cf %s"
+
+- name: Common — dépôt de la clé SSH du contrôleur
+  ansible.posix.authorized_key:
+    user: "{{ common_admin_user }}"
+    key: "{{ common_admin_authorized_key }}"
+    state: present

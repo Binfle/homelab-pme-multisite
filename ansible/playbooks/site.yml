@@ -1,0 +1,10 @@
+---
+# Playbook principal — homelab-pme-multisite
+# Lancement (depuis ansible/) : ansible-playbook playbooks/site.yml
+
+- name: Configuration de base — rôle common
+  hosts: all
+  become: true
+  gather_facts: true
+  roles:
+    - common

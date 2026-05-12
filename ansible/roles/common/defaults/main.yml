@@ -1,0 +1,24 @@
+---
+# defaults file for common
+# Variables overridables — peuvent être surchargées dans inventory ou group_vars
+
+# Compte d'administration standard
+common_admin_user: sysadmin
+common_admin_groups:
+  - sudo
+common_admin_shell: /bin/bash
+
+# Clé publique à déposer dans authorized_keys du compte admin
+# Lue dynamiquement depuis le contrôleur Ansible
+common_admin_authorized_key: "{{ lookup('file', lookup('env', 'HOME') + '/.ssh/id_ed25519.pub') }}"
+
+# Paquets de base à installer sur toutes les VMs
+common_base_packages:
+  - vim
+  - htop
+  - curl
+  - wget
+  - git
+  - net-tools
+  - dnsutils
+
