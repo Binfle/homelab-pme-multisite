@@ -14,7 +14,7 @@
 | **ADR** | Architecture Decision Record. Trace écrite d'une décision structurante. |
 | **Runbook** | Procédure opérationnelle de remédiation ou maintenance courante (ex: "redémarrer le tunnel WireGuard"). |
 | **Procédure d'installation** | Documentation de mise en place initiale d'un composant technique. Se distingue du runbook par son déclencheur (volonté de mise en place vs problème). Cf. ADR-006. |
-| **CR** | Compte-rendu de réunion. Daté, court, factuel. |
+| **CR** | Compte-rendu de réunion. Daté, court, factuel. Cas d'usage restreint depuis ADR-010 (cf section 2.4). |
 | **Livrable** | Artefact terminé selon les 5 critères de la section 4. |
 | **MVP** | Minimum Viable Product : le périmètre minimum qui rend le projet "présentable". |
 
@@ -138,14 +138,14 @@
 
 ### 2.4 Compte-rendu de réunion (CR)
 
-**Pourquoi**
-- Trace les décisions structurantes prises hors-stream.
-- Sert de rétrospective formelle en clôture de sprint.
+> **Note** : depuis ADR-010, les CR de clôture de sprint sont supprimés. Le dossier `docs/meetings/` est conservé uniquement pour les CR exceptionnels (décisions structurantes prises hors stream qui n'aboutiraient pas à un ADR — cas rare).
 
-**Quand** (cf section 6)
-- **Clôture de sprint** : rétrospective écrite (ce qui a marché, ce qui a coincé, leçons).
-- **Décision structurante** prise lors d'une session dédiée hors travail courant.
-- **Pas pour** : le travail courant (les décisions de détail se prennent à voix haute en stream Discord et sont tracées dans les commits / ADR / runbooks selon la portée).
+**Pourquoi**
+- Trace les décisions structurantes prises hors-stream qui n'aboutissent pas à un ADR.
+
+**Quand**
+- **Décision structurante** prise lors d'une session dédiée hors travail courant, si elle n'est pas déjà tracée dans un ADR.
+- **Pas pour** : la clôture de sprint (supprimée par ADR-010), ni le travail courant (les décisions de détail se prennent à voix haute en stream Discord et sont tracées dans les commits / ADR / runbooks / procédures selon la portée).
 
 **Qui**
 - Rédigé par l'un des deux à tour de rôle.
@@ -223,9 +223,8 @@ Un livrable est livrable quand **les 5 conditions** sont réunies :
 ### 5.3 Fin du sprint
 - Vérifier les 5 critères de "livrable" sur chaque tâche.
 - Mettre à jour le README principal avec les nouvelles fonctionnalités.
-- Rédiger les ADR, runbooks et procédures d'installation manquants.
-- Réunion de clôture : ce qui a marché, ce qui a coincé, leçons apprises (CR formel dans `docs/meetings/`).
-- Tag Git `sprint-N` sur le commit final.
+- Rédiger les ADR, runbooks et procédures d'installation manquants (la trace rétrospective vit dans ces artefacts, cf ADR-010).
+- Tag Git annoté `sprint-N` sur le commit final, avec message court décrivant le périmètre.
 
 ---
 
@@ -236,8 +235,9 @@ Le binôme bosse **en stream permanent** quand il travaille sur le projet (~10h/
 ### Cérémonies retenues (le minimum utile)
 
 **CR formel** (template `docs/meetings/template.md`) — uniquement pour :
-- **Clôture de sprint** : rétrospective écrite (ce qui a marché, ce qui a coincé, leçons apprises, ajustements pour le sprint suivant).
-- **Décisions structurantes** prises lors d'une session dédiée : si la décision aboutit à un ADR, le CR est facultatif (l'ADR fait office de trace). Sinon, un CR court justifie le choix.
+- **Décisions structurantes** prises lors d'une session dédiée qui n'aboutissent pas à un ADR (cas rare ; si la décision aboutit à un ADR, le CR n'a pas lieu d'être).
+
+Plus de CR de clôture de sprint depuis ADR-010 : la rétrospective vit atomiquement dans les ADR, runbooks, procédures et commits du sprint.
 
 **Pas de CR pour** :
 - Le travail courant (les décisions de détail se prennent à voix haute en stream)
