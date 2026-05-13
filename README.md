@@ -55,14 +55,14 @@ Deux sites reliés par un tunnel WireGuard site-à-site, chacun avec son propre 
 
 ## Découpage en grappes (sprints)
 
-| Sprint | Grappe | Livrable principal | État |
+| Sprint | Grappe | Livrable principal |
 |---|---|---|---|
-| 0 | Cadrage | Décisions structurantes, ADR fondateurs, prérequis validés | ✅ Terminé |
-| 1 | Réseau bas-niveau | pfSense × 2 + tunnel WireGuard site-à-site fonctionnel | ✅ Terminé |
-| 2 | Identité & postes | AD DC1, BIND9 split-horizon, clients Win + Linux joints | ⏳ À venir |
-| 3 | Services applicatifs | Traefik + 1 appli métier en Docker dans la DMZ | ⏳ À venir |
-| 4 | Observabilité & résilience | Prometheus + Grafana + Restic (avec test de restauration) | ⏳ À venir |
-| 5 | Source de vérité | NetBox renseigné, doc finale | ⏳ À venir |
+| 0 | Cadrage | Décisions structurantes, ADR fondateurs, prérequis validés |
+| 1 | Réseau bas-niveau | pfSense × 2 + tunnel WireGuard site-à-site fonctionnel |
+| 2 | Identité & postes | AD DC1, BIND9 split-horizon, clients Win + Linux joints |
+| 3 | Services applicatifs | Traefik + 1 appli métier en Docker dans la DMZ |
+| 4 | Observabilité & résilience | Prometheus + Grafana + Restic (avec test de restauration) |
+| 5 | Source de vérité | NetBox renseigné, doc finale |
 
 Détail dans [docs/sprints/](docs/sprints/).
 
