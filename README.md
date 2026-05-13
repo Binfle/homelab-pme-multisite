@@ -14,13 +14,28 @@ Besoins : auth centralisée Win + Linux, partage de fichiers, télétravail, sit
 
 Deux sites reliés par un tunnel WireGuard site-à-site, chacun avec son propre pare-feu pfSense. Voir [docs/architecture.md](docs/architecture.md), [docs/addressing-plan.md](docs/addressing-plan.md), [diagrams/network-overview.txt](diagrams/network-overview.txt), [docs/adr/](docs/adr/).
 
+## Documentation de référence
+
+| Document | Contenu |
+|---|---|
+| [docs/architecture.md](docs/architecture.md) | Vue d'ensemble de l'architecture cible |
+| [docs/addressing-plan.md](docs/addressing-plan.md) | Plan d'adressage IP par site et VLAN |
+| [docs/ip-registry.md](docs/ip-registry.md) | Registre des IPs effectivement allouées (vivant) |
+| [docs/conventions.md](docs/conventions.md) | Conventions de nommage et standards récurrents |
+| [docs/process.md](docs/process.md) | Cadre méthodologique (ADR, runbooks, sprints) |
+| [docs/adr/](docs/adr/) | Architecture Decision Records |
+| [docs/sprints/](docs/sprints/) | Plans détaillés des sprints |
+| [docs/installations/](docs/installations/) | Procédures d'installation |
+| [docs/runbooks/](docs/runbooks/) | Procédures de remédiation et maintenance |
+
 ## Stack
 
 | Domaine | Choix |
 |---|---|
-| Hyperviseur (phase 1) | VirtualBox / VMware Workstation Pro |
+| Hyperviseur (phase 1) | Hyper-V (cf [ADR-007](docs/adr/007-passage-hyperv.md)) |
 | Hyperviseur (phase 2 bonus) | Proxmox VE |
 | Pare-feu / VPN | pfSense + WireGuard |
+| DHCP | Kea (intégré pfSense, cf [ADR-008](docs/adr/008-backend-dhcp-kea.md)) |
 | IaC | Ansible |
 | Annuaire | Active Directory |
 | DNS | AD-DNS (siège) + BIND9 (agence) |
@@ -40,14 +55,14 @@ Deux sites reliés par un tunnel WireGuard site-à-site, chacun avec son propre 
 
 ## Découpage en grappes (sprints)
 
-| Sprint | Grappe | Livrable principal |
-|---|---|---|
-| 0 | Cadrage | Décisions structurantes, ADR fondateurs, prérequis validés |
-| 1 | Réseau bas-niveau | pfSense × 2 + tunnel WireGuard site-à-site fonctionnel |
-| 2 | Identité & postes | AD DC1, BIND9 split-horizon, clients Win + Linux joints |
-| 3 | Services applicatifs | Traefik + 1 appli métier en Docker dans la DMZ |
-| 4 | Observabilité & résilience | Prometheus + Grafana + Restic (avec test de restauration) |
-| 5 | Source de vérité | NetBox renseigné, doc finale |
+| Sprint | Grappe | Livrable principal | État |
+|---|---|---|---|
+| 0 | Cadrage | Décisions structurantes, ADR fondateurs, prérequis validés | ✅ Terminé |
+| 1 | Réseau bas-niveau | pfSense × 2 + tunnel WireGuard site-à-site fonctionnel | ✅ Terminé |
+| 2 | Identité & postes | AD DC1, BIND9 split-horizon, clients Win + Linux joints | ⏳ À venir |
+| 3 | Services applicatifs | Traefik + 1 appli métier en Docker dans la DMZ | ⏳ À venir |
+| 4 | Observabilité & résilience | Prometheus + Grafana + Restic (avec test de restauration) | ⏳ À venir |
+| 5 | Source de vérité | NetBox renseigné, doc finale | ⏳ À venir |
 
 Détail dans [docs/sprints/](docs/sprints/).
 
