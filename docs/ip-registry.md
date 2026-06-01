@@ -94,7 +94,7 @@
 | IP | Hostname | Attribution | État | Notes |
 |---|---|---|---|---|
 | `.1` | pfSense `agence01` | Statique manuel | En service | Gateway |
-| `.100` | `ansible-agence01` | Statique manuel | **À migrer vers `.10`** | Contrôleur Ansible — dette identifiée Sprint 1, à corriger après activation de Kea sur MGMT |
+| `.10` | `ansible-agence01` | Statique manuel | Contrôleur Ansible — dette identifiée Sprint 1, à corriger après activation de Kea sur MGMT |
 
 ---
 
